@@ -197,3 +197,31 @@
 .auth__switch--btn:hover {
   background-color: rgb(209, 209, 209);
 }
+
+.auth__error {
+  font-size: 1rem;
+  color: #f56c6c;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.spinner__icon--wrapper {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.spinner__icon--svg {
+  width: 1.5rem;
+  color: white;
+  height: 1.5rem;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
