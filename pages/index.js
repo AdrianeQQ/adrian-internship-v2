@@ -7,14 +7,32 @@ import Image from "next/image";
 import logo from "@/public/logo.png";
 import landing from "@/public/landing.png";
 import Statistics from "@/components/Statistics";
-import { useState } from "react";
 import AuthModal from "@/components/AuthModal";
+import { open } from "@/redux/modalSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase";
+import { login, logout } from "@/redux/authSlice";
+import { useRouter } from "next/router";
 
 const Home = () => {
-  const [showModal, setShowModal] = useState(false);
+  const { isOpen } = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
+  const { push } = useRouter();
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(login(user));
+        push("/for-you");
+      } else {
+        dispatch(logout());
+      }
+    });
+  }, []);
   return (
     <>
-      {showModal && <AuthModal hideModal={() => setShowModal(false)} />}
+      {isOpen && <AuthModal />}
       <nav className={styles.nav}>
         <div className={styles.nav__wrapper}>
           <figure className={styles["nav__img--mask"]}>
@@ -23,7 +41,7 @@ const Home = () => {
           <ul className={styles["nav__list--wrapper"]}>
             <li
               className={`${styles.nav__list} ${styles["nav__list--login"]}`}
-              onClick={() => setShowModal((prevModal) => !prevModal)}
+              onClick={() => dispatch(open())}
             >
               Login
             </li>
@@ -64,7 +82,7 @@ const Home = () => {
                 </div>
                 <button
                   className={`${styles.btn} ${styles["home__cta--btn"]}`}
-                  onClick={() => setShowModal((prevModal) => !prevModal)}
+                  onClick={() => dispatch(open())}
                 >
                   Login
                 </button>
@@ -181,7 +199,7 @@ const Home = () => {
             <div className={styles["reviews__btn--wrapper"]}>
               <button
                 className={`${styles.btn} ${styles["home__cta--btn"]}`}
-                onClick={() => setShowModal((prevModal) => !prevModal)}
+                onClick={() => dispatch(open())}
               >
                 Login
               </button>

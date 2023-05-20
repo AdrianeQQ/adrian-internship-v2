@@ -1,34 +1,27 @@
 import classes from "@/styles/AuthModal.module.css";
 import Image from "next/image";
 import googleLogo from "@/public/google.webp";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth } from "@/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
 } from "firebase/auth";
 import Spinner from "./Spinner";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { login } from "@/redux/authSlice";
+import { close } from "@/redux/modalSlice";
 
-const AuthModal = (props) => {
+const AuthModal = () => {
   const [signupModal, setSignupModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [clickedButton, setClickedButton] = useState(null);
-  const [user, setUser] = useState({});
   const { push } = useRouter();
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      console.log(user);
-      if (user) {
-        setUser(user);
-        console.log("Logged in");
-      }
-    });
-  }, []);
+  const dispatch = useDispatch();
   const submitForm = async (event, email, password) => {
     event.preventDefault();
     setIsLoading(true);
@@ -40,8 +33,8 @@ const AuthModal = (props) => {
           email,
           password
         );
-        setUser(user);
-        props.hideModal();
+        dispatch(login(user));
+        dispatch(close());
         push("/for-you");
       } catch (error) {
         setError(error.message);
@@ -53,10 +46,9 @@ const AuthModal = (props) => {
           email,
           password
         );
-        setUser(user);
-        props.hideModal();
-        console.log(user);
-        // push("/for-you");
+        dispatch(login(user));
+        dispatch(close());
+        push("/for-you");
       } catch (error) {
         setError(error.message);
       }
@@ -65,7 +57,10 @@ const AuthModal = (props) => {
   };
   return (
     <>
-      <div className={classes.auth__wrapper} onClick={props.hideModal}></div>
+      <div
+        className={classes.auth__wrapper}
+        onClick={() => dispatch(close())}
+      ></div>
       <div className={classes["auth__wrapper--info"]}>
         <div className={classes.auth}>
           <div className={classes.auth__content}>
@@ -175,7 +170,7 @@ const AuthModal = (props) => {
           </button>
           <div
             className={classes["auth__close--btn"]}
-            onClick={props.hideModal}
+            onClick={() => dispatch(close())}
           >
             <svg
               stroke="currentColor"
