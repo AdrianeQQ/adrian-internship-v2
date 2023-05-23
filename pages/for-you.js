@@ -1,29 +1,20 @@
-import { auth } from "@/firebase";
-import { logout } from "@/redux/authSlice";
-import { signOut } from "firebase/auth";
-import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
+import AuthModal from "@/components/AuthModal";
+import NavBar from "@/components/NavBar";
+import Search from "@/components/Search";
+import { useSelector } from "react-redux";
 
 const ForYouPage = () => {
-  const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const logoutUser = async () => {
-    try {
-      await signOut(auth);
-      dispatch(logout());
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { isOpen } = useSelector((state) => state.modal);
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>This is For You Page</h1>
-      <p>{user.email ? `Email: ${user.email}` : "Not Logged In"}</p>
-      <button onClick={logoutUser}>Logout</button>
-      <Link href="/" style={{ display: "block" }}>
-        Main page
-      </Link>
-    </div>
+    <>
+      {isOpen && <AuthModal />}
+      <div style={{ display: "flex" }}>
+        <NavBar active="for-you" />
+        <div>
+          <Search />
+        </div>
+      </div>
+    </>
   );
 };
 
