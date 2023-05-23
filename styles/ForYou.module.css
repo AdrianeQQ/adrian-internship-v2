@@ -1,0 +1,18 @@
+.container {
+  padding: 2.5rem 1.5rem;
+  max-width: 64rem;
+  margin: auto;
+}
+
+.title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.sub--title {
+  font-size: 1rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  color: #394547;
+}
