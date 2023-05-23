@@ -1,10 +1,15 @@
+.search {
+  border-bottom: 1px solid #e1e7ea;
+}
+
 .search__wrapper {
   padding: 0 2rem;
   display: flex;
   justify-content: right;
-  border-bottom: 1px solid #e1e7ea;
   height: 5rem;
   align-items: center;
+  max-width: 64rem;
+  margin: auto;
 }
 
 .search__input--wrapper {

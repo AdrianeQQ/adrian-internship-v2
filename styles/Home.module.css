@@ -114,7 +114,6 @@
 }
 
 .landing__content__title {
-  color: #032b41;
   font-size: 40px;
   font-weight: bold;
   margin-bottom: 24px;
@@ -147,7 +146,6 @@
   display: flex;
   justify-content: center;
   margin-bottom: 8px;
-  color: #032b41;
 }
 
 .features__icon svg {
@@ -157,7 +155,6 @@
 
 .features__title {
   font-size: 24px;
-  color: #032b41;
   margin-bottom: 16px;
   font-weight: 500;
 }
@@ -247,7 +244,6 @@
 }
 
 .review__header {
-  color: #032b41;
   display: flex;
   gap: 8px;
   margin-bottom: 8px;
@@ -312,7 +308,6 @@
 
 .numbers__title {
   font-size: 40px;
-  color: #032b41;
   font-weight: 600;
   margin-bottom: 16px;
 }
@@ -342,7 +337,6 @@
   font-weight: 600;
   margin-bottom: 16px;
   font-size: 18px;
-  color: #032b41;
 }
 
 .footer__social--link-wrapper {
@@ -402,7 +396,6 @@
 }
 
 .footer__copyright {
-  color: #032b41;
   font-weight: 500;
 }
 
