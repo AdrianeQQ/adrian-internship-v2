@@ -5,13 +5,13 @@ import Link from "next/link";
 import { logout, subscription } from "@/redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
-import { closeHam, open } from "@/redux/modalSlice";
+import { closeHam, open, size } from "@/redux/modalSlice";
 import { auth } from "@/firebase";
 
 const NavBar = ({ active }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const { isHamburger } = useSelector((state) => state.modal);
+  const { isHamburger, fontSize } = useSelector((state) => state.modal);
   const logoutUser = async () => {
     try {
       await signOut(auth);
@@ -23,11 +23,13 @@ const NavBar = ({ active }) => {
   };
   return (
     <div
-      className={`${classes.sidebar} ${isHamburger && classes.sidebar__open}`}
+      className={`${classes.sidebar} ${isHamburger && classes.sidebar__open} ${
+        active === "player" && classes.sidebar__player
+      }`}
     >
       {isHamburger && (
         <div
-          className={classes.sidebar__close}
+          className={`${classes.sidebar__close} ${classes["sidebar__close-player"]}`}
           onClick={() => dispatch(closeHam())}
         ></div>
       )}
@@ -38,7 +40,11 @@ const NavBar = ({ active }) => {
           alt="Logo"
         />
       </div>
-      <div className={classes.sidebar__wrapper}>
+      <div
+        className={`${classes.sidebar__wrapper} ${
+          active === "player" && classes["sidebar__wrapper-player"]
+        }`}
+      >
         <div className={classes.sidebar__top}>
           <Link
             href="/for-you"
@@ -135,6 +141,98 @@ const NavBar = ({ active }) => {
             </div>
             <div className={classes["sidebar__link--text"]}>Search</div>
           </div>
+          {active === "player" && (
+            <div className={classes["sidebar__font--wrapper"]}>
+              <div
+                className={`${classes["sidebar__font-icon"]} ${
+                  fontSize === 1 && classes["sidebar__font-selected"]
+                }`}
+                onClick={() => dispatch(size(1))}
+              >
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  strokeWidth="0"
+                  viewBox="0 0 24 24"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={classes["sidebar__font-svg-1"]}
+                >
+                  <g>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path d="M11.246 15H4.754l-2 5H.6L7 4h2l6.4 16h-2.154l-2-5zm-.8-2L8 6.885 5.554 13h4.892zM21 12.535V12h2v8h-2v-.535a4 4 0 1 1 0-6.93zM19 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                  </g>
+                </svg>
+              </div>
+              <div
+                className={`${classes["sidebar__font-icon"]} ${
+                  fontSize === 2 && classes["sidebar__font-selected"]
+                }`}
+                onClick={() => dispatch(size(2))}
+              >
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  strokeWidth="0"
+                  viewBox="0 0 24 24"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={classes["sidebar__font-svg-2"]}
+                >
+                  <g>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path d="M11.246 15H4.754l-2 5H.6L7 4h2l6.4 16h-2.154l-2-5zm-.8-2L8 6.885 5.554 13h4.892zM21 12.535V12h2v8h-2v-.535a4 4 0 1 1 0-6.93zM19 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                  </g>
+                </svg>
+              </div>
+              <div
+                className={`${classes["sidebar__font-icon"]} ${
+                  fontSize === 3 && classes["sidebar__font-selected"]
+                }`}
+                onClick={() => dispatch(size(3))}
+              >
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  strokeWidth="0"
+                  viewBox="0 0 24 24"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={classes["sidebar__font-svg-3"]}
+                >
+                  <g>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path d="M11.246 15H4.754l-2 5H.6L7 4h2l6.4 16h-2.154l-2-5zm-.8-2L8 6.885 5.554 13h4.892zM21 12.535V12h2v8h-2v-.535a4 4 0 1 1 0-6.93zM19 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                  </g>
+                </svg>
+              </div>
+              <div
+                className={`${classes["sidebar__font-icon"]} ${
+                  fontSize === 4 && classes["sidebar__font-selected"]
+                }`}
+                onClick={() => dispatch(size(4))}
+              >
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  strokeWidth="0"
+                  viewBox="0 0 24 24"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={classes["sidebar__font-svg-4"]}
+                >
+                  <g>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path d="M11.246 15H4.754l-2 5H.6L7 4h2l6.4 16h-2.154l-2-5zm-.8-2L8 6.885 5.554 13h4.892zM21 12.535V12h2v8h-2v-.535a4 4 0 1 1 0-6.93zM19 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          )}
         </div>
         <div className={classes.sidebar__bottom}>
           <Link

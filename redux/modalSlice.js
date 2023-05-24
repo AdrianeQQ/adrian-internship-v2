@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isOpen: false,
   isHamburger: false,
+  fontSize: 1,
 };
 
 export const modalSlice = createSlice({
@@ -21,9 +22,12 @@ export const modalSlice = createSlice({
     closeHam: (state) => {
       state.isHamburger = false;
     },
+    size: (state, action) => {
+      state.fontSize = action.payload;
+    },
   },
 });
 
-export const { open, close, openHam, closeHam } = modalSlice.actions;
+export const { open, close, openHam, closeHam, size } = modalSlice.actions;
 
 export default modalSlice.reducer;
