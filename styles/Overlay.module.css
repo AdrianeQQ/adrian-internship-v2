@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+}
+
+.navbar__fake {
+  width: 12.5rem;
+  z-index: -1;
+  flex-shrink: 0;
+}
+
+.container {
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+@media (max-width: 48rem) {
+  .navbar__fake {
+    display: none;
+  }
+}

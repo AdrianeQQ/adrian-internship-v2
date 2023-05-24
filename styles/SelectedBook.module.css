@@ -68,3 +68,9 @@
 .book__text {
   flex-grow: 1;
 }
+
+@media (max-width: 75rem) {
+  .book {
+    max-width: 100%;
+  }
+}

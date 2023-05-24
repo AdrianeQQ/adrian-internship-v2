@@ -10,10 +10,14 @@
   align-items: center;
   max-width: 64rem;
   margin: auto;
+  gap: 1.5rem;
 }
 
 .search__input--wrapper {
   position: relative;
+  flex-grow: 1;
+  width: 100%;
+  max-width: 21.25rem;
 }
 
 .search__input {
@@ -22,7 +26,7 @@
   background-color: #f1f6f4;
   border: 2px solid #e1e7ea;
   border-radius: 0.5rem;
-  width: 21.25rem;
+  width: 100%;
 }
 
 .search__input:focus {
@@ -44,4 +48,21 @@
 .search__svg {
   height: 1.5rem;
   width: 1.5rem;
+}
+
+.search__hamburger {
+  display: none;
+}
+
+.search__hamburger-svg {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+@media (max-width: 48rem) {
+  .search__hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

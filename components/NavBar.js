@@ -5,12 +5,13 @@ import Link from "next/link";
 import { logout } from "@/redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
-import { open } from "@/redux/modalSlice";
+import { closeHam, open } from "@/redux/modalSlice";
 import { auth } from "@/firebase";
 
 const NavBar = ({ active }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const { isHamburger } = useSelector((state) => state.modal);
   const logoutUser = async () => {
     try {
       await signOut(auth);
@@ -20,7 +21,15 @@ const NavBar = ({ active }) => {
     }
   };
   return (
-    <div className={classes.sidebar}>
+    <div
+      className={`${classes.sidebar} ${isHamburger && classes.sidebar__open}`}
+    >
+      {isHamburger && (
+        <div
+          className={classes.sidebar__close}
+          onClick={() => dispatch(closeHam())}
+        ></div>
+      )}
       <div className={classes.sidebar__logo}>
         <Image
           src={logo}
@@ -30,7 +39,11 @@ const NavBar = ({ active }) => {
       </div>
       <div className={classes.sidebar__wrapper}>
         <div className={classes.sidebar__top}>
-          <Link href="/for-you" className={classes["sidebar__link--wrapper"]}>
+          <Link
+            href="/for-you"
+            className={classes["sidebar__link--wrapper"]}
+            onClick={() => dispatch(closeHam())}
+          >
             <div
               className={`${classes["sidebar__link--line"]} ${
                 active === "for-you" && classes["sidebar__link--active"]
@@ -52,7 +65,11 @@ const NavBar = ({ active }) => {
             </div>
             <div className={classes["sidebar__link--text"]}>For you</div>
           </Link>
-          <Link href="/library" className={classes["sidebar__link--wrapper"]}>
+          <Link
+            href="/library"
+            className={classes["sidebar__link--wrapper"]}
+            onClick={() => dispatch(closeHam())}
+          >
             <div
               className={`${classes["sidebar__link--line"]} ${
                 active === "library" && classes["sidebar__link--active"]
@@ -119,7 +136,11 @@ const NavBar = ({ active }) => {
           </div>
         </div>
         <div className={classes.sidebar__bottom}>
-          <Link href="/settings" className={classes["sidebar__link--wrapper"]}>
+          <Link
+            href="/settings"
+            className={classes["sidebar__link--wrapper"]}
+            onClick={() => dispatch(closeHam())}
+          >
             <div
               className={`${classes["sidebar__link--line"]} ${
                 active === "settings" && classes["sidebar__link--active"]

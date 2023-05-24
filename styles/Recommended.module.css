@@ -1,0 +1,76 @@
+.books__container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  overflow-x: scroll;
+}
+
+.book__link {
+  padding: 2rem 0.75rem 0.75rem;
+  max-width: 12.25rem;
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+}
+
+.book__link:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.book__title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.book__author {
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b757b;
+}
+
+.book__sub-title {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #394547;
+}
+
+.book__details--wrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.book__details {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.book__details-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book__details-svg {
+  fill: #6b757b;
+  width: 1rem;
+  height: 1rem;
+}
+
+.book__details-text {
+  color: #6b757b;
+  font-size: 0.875rem;
+}
+
+.book__subscription {
+  position: absolute;
+  font-size: 0.625rem;
+  color: white;
+  padding: 0.1875rem 0.5rem;
+  background-color: #032b41;
+  border-radius: 10rem;
+  right: 0;
+  transform: translateY(-2rem);
+}
