@@ -10,26 +10,16 @@ import Statistics from "@/components/Statistics";
 import AuthModal from "@/components/AuthModal";
 import { open } from "@/redux/modalSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/firebase";
-import { login, logout } from "@/redux/authSlice";
 import { useRouter } from "next/router";
 
 const Home = () => {
   const { isOpen } = useSelector((state) => state.modal);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { push } = useRouter();
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(login(user));
-        push("/for-you");
-      } else {
-        dispatch(logout());
-      }
-    });
-  }, []);
+  if (user.email) {
+    push("/for-you");
+  }
   return (
     <>
       {isOpen && <AuthModal />}

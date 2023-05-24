@@ -2,14 +2,16 @@ import Link from "next/link";
 import classes from "@/styles/Recommended.module.css";
 import Image from "next/image";
 import Skeleton from "./Skeleton";
+import { useSelector } from "react-redux";
 
 const Book = ({ book, loading }) => {
+  const { premium } = useSelector((state) => state.auth);
   return (
     <Link
       className={classes.book__link}
       href={loading ? "/for-you" : `/book/${book.id}`}
     >
-      {!loading && book.subscriptionRequired && (
+      {!loading && !premium && book.subscriptionRequired && (
         <p className={classes.book__subscription}>Premium</p>
       )}
       <figure className={classes["book__image--wrapper"]}>

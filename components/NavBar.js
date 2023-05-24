@@ -2,7 +2,7 @@ import classes from "@/styles/NavBar.module.css";
 import Image from "next/image";
 import logo from "@/public/logo.png";
 import Link from "next/link";
-import { logout } from "@/redux/authSlice";
+import { logout, subscription } from "@/redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { closeHam, open } from "@/redux/modalSlice";
@@ -16,6 +16,7 @@ const NavBar = ({ active }) => {
     try {
       await signOut(auth);
       dispatch(logout());
+      dispatch(subscription(null));
     } catch (error) {
       console.log(error);
     }

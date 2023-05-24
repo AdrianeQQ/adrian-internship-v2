@@ -2,16 +2,16 @@ import classes from "@/styles/AuthModal.module.css";
 import Image from "next/image";
 import googleLogo from "@/public/google.webp";
 import { useState } from "react";
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import Spinner from "./Spinner";
-import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { login } from "@/redux/authSlice";
+import { login, subscription } from "@/redux/authSlice";
 import { close } from "@/redux/modalSlice";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const AuthModal = () => {
   const [signupModal, setSignupModal] = useState(false);
@@ -20,7 +20,6 @@ const AuthModal = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [clickedButton, setClickedButton] = useState(null);
-  const { push } = useRouter();
   const dispatch = useDispatch();
   const submitForm = async (event, email, password) => {
     event.preventDefault();
@@ -33,9 +32,14 @@ const AuthModal = () => {
           email,
           password
         );
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          email: user.email,
+          premium: false,
+        });
+        dispatch(subscription(false));
         dispatch(login(user));
         dispatch(close());
-        push("/for-you");
       } catch (error) {
         setError(error.message);
       }
@@ -46,9 +50,10 @@ const AuthModal = () => {
           email,
           password
         );
+        const userSnap = await getDoc(doc(db, "users", user.uid));
+        dispatch(subscription(userSnap.data().premium));
         dispatch(login(user));
         dispatch(close());
-        push("/for-you");
       } catch (error) {
         setError(error.message);
       }
