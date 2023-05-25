@@ -15,6 +15,7 @@
 .summary {
   line-height: 1.4;
   white-space: pre-line;
+  margin-bottom: 5rem;
 }
 
 .small {
@@ -124,14 +125,36 @@
 }
 
 .player__audio--bar {
-  width: 18.75rem;
+  border-radius: 0.5rem;
   height: 0.25rem;
-  background-color: #6d787d;
+  max-width: 18.75rem;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background: linear-gradient(
+    to right,
+    rgb(43, 217, 124) var(--range-progress),
+    rgb(109, 120, 125) var(--range-progress)
+  );
+  --range-progress: 0%;
+}
+
+.player__audio--bar::-webkit-slider-thumb {
+  border: 0.375rem solid white;
+  height: 0.375rem;
+  width: 0.375rem;
+  border-radius: 50%;
+  appearance: none;
 }
 
 @media (max-width: 48rem) {
   .summary__title {
     font-size: 1.25rem;
+  }
+
+  .summary {
+    margin-bottom: 11.25rem;
   }
 
   .summary,
@@ -144,9 +167,6 @@
 
   .player {
     height: 11.25rem;
-  }
-
-  .player {
     display: flex;
     flex-direction: column;
     gap: 1rem;

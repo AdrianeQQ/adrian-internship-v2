@@ -1,8 +1,51 @@
 import classes from "@/styles/Player.module.css";
 import Image from "next/image";
 import Skeleton from "./Skeleton";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { finish } from "@/redux/booksSlice";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 
 const Player = ({ book, isLoading }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [timeProgress, setTimeProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef();
+  const progressRef = useRef();
+  const playAnimationRef = useRef();
+  const dispatch = useDispatch();
+  const { finished } = useSelector((state) => state.books);
+  const { user } = useSelector((state) => state.auth);
+  const repeat = useCallback(() => {
+    if (!audioRef.current) return;
+    const currentTime = audioRef.current.currentTime;
+    setTimeProgress(currentTime);
+    progressRef.current.value = currentTime;
+    progressRef.current.style.setProperty(
+      "--range-progress",
+      `${(progressRef.current.value / duration) * 100}%`
+    );
+    playAnimationRef.current = requestAnimationFrame(repeat);
+  }, [audioRef, duration, progressRef, setTimeProgress]);
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+    playAnimationRef.current = requestAnimationFrame(repeat);
+  }, [isPlaying, audioRef, repeat]);
+  const formatTime = (time) => {
+    if (time && !isNaN(time)) {
+      const minutes = Math.floor(time / 60);
+      const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+      const seconds = Math.floor(time % 60);
+      const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+      return `${formatMinutes}:${formatSeconds}`;
+    }
+    return "00:00";
+  };
   return (
     <div className={classes.player}>
       <div className={classes["player__track--wrapper"]}>
@@ -29,7 +72,10 @@ const Player = ({ book, isLoading }) => {
         </div>
       </div>
       <div className={classes["player__audio--controls"]}>
-        <button className={classes["player__audio--btn"]}>
+        <button
+          className={classes["player__audio--btn"]}
+          onClick={() => (audioRef.current.currentTime -= 10)}
+        >
           <svg
             stroke="currentColor"
             fill="currentColor"
@@ -48,21 +94,42 @@ const Player = ({ book, isLoading }) => {
             ></path>
           </svg>
         </button>
-        <button className={classes["player__audio--btn-play"]}>
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 512 512"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-            className={classes["player__audio--svg-play"]}
-          >
-            <path d="M96 448l320-192L96 64v384z"></path>
-          </svg>
+        <button
+          className={classes["player__audio--btn-play"]}
+          onClick={() => setIsPlaying((prevPlaying) => !prevPlaying)}
+        >
+          {isPlaying ? (
+            <svg
+              stroke="currentColor"
+              fill="currentColor"
+              strokeWidth="0"
+              viewBox="0 0 512 512"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+              className={classes["player__audio--svg-play"]}
+            >
+              <path d="M224 432h-80V80h80zm144 0h-80V80h80z"></path>
+            </svg>
+          ) : (
+            <svg
+              stroke="currentColor"
+              fill="currentColor"
+              strokeWidth="0"
+              viewBox="0 0 512 512"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+              className={classes["player__audio--svg-play"]}
+            >
+              <path d="M96 448l320-192L96 64v384z"></path>
+            </svg>
+          )}
         </button>
-        <button className={classes["player__audio--btn"]}>
+        <button
+          className={classes["player__audio--btn"]}
+          onClick={() => (audioRef.current.currentTime += 10)}
+        >
           <svg
             stroke="currentColor"
             fill="currentColor"
@@ -83,15 +150,38 @@ const Player = ({ book, isLoading }) => {
         </button>
       </div>
       <div className={classes["player__progress--wrapper"]}>
-        {isLoading ? (
-          <Skeleton height={20} width="100%" />
-        ) : (
-          <>
-            <div className={classes["player__audio--time"]}>00:00</div>
-            <div className={classes["player__audio--bar"]}></div>
-            <div className={classes["player__audio--time"]}>00:00</div>
-          </>
-        )}
+        <audio
+          src={isLoading ? undefined : book.audioLink}
+          ref={audioRef}
+          onLoadedMetadata={() => {
+            const seconds = audioRef.current.duration;
+            setDuration(seconds);
+            progressRef.current.max = seconds;
+          }}
+          onEnded={async () => {
+            dispatch(finish(book));
+            setIsPlaying(false);
+            audioRef.current.currentTime = 0;
+            await updateDoc(doc(db, "users", user.uid), {
+              finished,
+            });
+          }}
+        />
+        <div className={classes["player__audio--time"]}>
+          {formatTime(timeProgress)}
+        </div>
+        <input
+          type="range"
+          className={classes["player__audio--bar"]}
+          ref={progressRef}
+          defaultValue="0"
+          onChange={() =>
+            (audioRef.current.currentTime = progressRef.current.value)
+          }
+        />
+        <div className={classes["player__audio--time"]}>
+          {formatTime(duration)}
+        </div>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { login, subscription } from "@/redux/authSlice";
 import { close } from "@/redux/modalSlice";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { loadFinished, loadSaved } from "@/redux/booksSlice";
 
 const AuthModal = () => {
   const [signupModal, setSignupModal] = useState(false);
@@ -36,6 +37,8 @@ const AuthModal = () => {
           uid: user.uid,
           email: user.email,
           premium: false,
+          finished: [],
+          saved: [],
         });
         dispatch(subscription(false));
         dispatch(login(user));
@@ -52,6 +55,8 @@ const AuthModal = () => {
         );
         const userSnap = await getDoc(doc(db, "users", user.uid));
         dispatch(subscription(userSnap.data().premium));
+        dispatch(loadSaved(userSnap.data().saved));
+        dispatch(loadFinished(userSnap.data().finished));
         dispatch(login(user));
         dispatch(close());
       } catch (error) {

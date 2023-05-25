@@ -31,7 +31,7 @@ const PlayerPage = () => {
       setBook(data);
       setIsLoading(false);
     })();
-  }, []);
+  }, [bookId]);
   return (
     <Overlay active="player">
       <div className={classes.container}>

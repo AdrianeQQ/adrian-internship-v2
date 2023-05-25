@@ -3,14 +3,29 @@ import classes from "@/styles/Recommended.module.css";
 import Image from "next/image";
 import Skeleton from "./Skeleton";
 import { useSelector } from "react-redux";
+import { useRef, useState } from "react";
 
 const Book = ({ book, loading }) => {
   const { premium } = useSelector((state) => state.auth);
+  const [duration, setDuration] = useState("00:00");
+  const audioRef = useRef();
   return (
     <Link
       className={classes.book__link}
       href={loading ? "/for-you" : `/book/${book.id}`}
     >
+      <audio
+        src={!loading && book.audioLink}
+        ref={audioRef}
+        onLoadedMetadata={() =>
+          setDuration(() => {
+            const total = Math.floor(audioRef.current.duration);
+            const minutes = `${Math.floor(total / 60)}`.padStart(2, 0);
+            const seconds = `${total % 60}`.padStart(2, 0);
+            return `${minutes}:${seconds}`;
+          })
+        }
+      />
       {!loading && !premium && book.subscriptionRequired && (
         <p className={classes.book__subscription}>Premium</p>
       )}
@@ -56,10 +71,7 @@ const Book = ({ book, loading }) => {
                   <path d="M13 7h-2v6h6v-2h-4z"></path>
                 </svg>
               </div>
-              <div className={classes["book__details-text"]}>
-                <Skeleton height={14} width={34} />
-              </div>
-              {/* <p className={classes["book__details-text"]}>{book.duration}</p> */}
+              <p className={classes["book__details-text"]}>{duration}</p>
             </div>
             <div className={classes.book__details}>
               <div className={classes["book__details-icon"]}>

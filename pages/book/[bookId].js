@@ -8,6 +8,8 @@ import Skeleton from "@/components/Skeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { open } from "@/redux/modalSlice";
 import { save, unsave } from "@/redux/booksSlice";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 
 const BookPage = () => {
   const router = useRouter();
@@ -21,13 +23,19 @@ const BookPage = () => {
   const [isSaved, setIsSaved] = useState(
     !!saved.find((book) => book.id === bookId)
   );
-  const handleSave = () => {
+  const handleSave = async () => {
     if (isSaved) {
       dispatch(unsave(book));
       setIsSaved(false);
+      await updateDoc(doc(db, "users", user.uid), {
+        saved: [...saved.filter((book2) => book2.id !== book.id)],
+      });
     } else {
       dispatch(save(book));
       setIsSaved(true);
+      await updateDoc(doc(db, "users", user.uid), {
+        saved: [...saved.filter((book2) => book2.id !== book.id), book],
+      });
     }
   };
   useEffect(() => {
@@ -42,7 +50,7 @@ const BookPage = () => {
       setBook(data);
       setIsLoading(false);
     })();
-  }, []);
+  }, [bookId]);
   return (
     <Overlay>
       <div className={classes.container}>

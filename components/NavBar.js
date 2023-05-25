@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { closeHam, open, size } from "@/redux/modalSlice";
 import { auth } from "@/firebase";
+import { loadFinished, loadSaved } from "@/redux/booksSlice";
 
 const NavBar = ({ active }) => {
   const { user } = useSelector((state) => state.auth);
@@ -17,6 +18,8 @@ const NavBar = ({ active }) => {
       await signOut(auth);
       dispatch(logout());
       dispatch(subscription(null));
+      dispatch(loadSaved([]));
+      dispatch(loadFinished([]));
     } catch (error) {
       console.log(error);
     }

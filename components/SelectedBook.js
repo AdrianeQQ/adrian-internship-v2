@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Skeleton from "./Skeleton";
 import classes from "@/styles/SelectedBook.module.css";
 import Link from "next/link";
@@ -8,6 +8,8 @@ import Image from "next/image";
 const SelectedBook = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [book, setBook] = useState(null);
+  const [duration, setDuration] = useState("0 mins 0 secs");
+  const audioRef = useRef();
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -23,6 +25,18 @@ const SelectedBook = () => {
       href={isLoading ? "/for-you" : `/book/${book.id}`}
       className={classes.book}
     >
+      <audio
+        src={!isLoading && book.audioLink}
+        ref={audioRef}
+        onLoadedMetadata={() =>
+          setDuration(() => {
+            const total = Math.floor(audioRef.current.duration);
+            const minutes = Math.floor(total / 60);
+            const seconds = total % 60;
+            return `${minutes} mins ${seconds} secs`;
+          })
+        }
+      />
       <div className={classes["book__sub-title"]}>
         {isLoading ? <Skeleton height={16} width="100%" /> : book.subTitle}
       </div>
@@ -62,10 +76,7 @@ const SelectedBook = () => {
                 <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path>
               </svg>
             </div>
-            <div className={classes.book__duration}>
-              <Skeleton height={14} width="25%" />
-            </div>
-            {/* <p className={classes.book__duration}>{book.duration}</p> */}
+            <p className={classes.book__duration}>{duration}</p>
           </div>
         </div>
       </div>
