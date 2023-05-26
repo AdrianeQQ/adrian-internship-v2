@@ -4,10 +4,12 @@ import pricingImage from "@/public/pricing-top.png";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { createCheckoutSession } from "@/stripe/createCheckoutSession";
 
 const ChoosePlan = () => {
   const [selectedPlan, setSelectedPlan] = useState(1);
   const [openedInfo, setOpenedInfo] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { user, premium } = useSelector((state) => state.auth);
   const router = useRouter();
   const { push } = router;
@@ -132,7 +134,23 @@ const ChoosePlan = () => {
           </div>
         </div>
         <div className={classes.sticky}>
-          <button className={classes.btn}>
+          <button
+            className={classes.btn}
+            onClick={() => {
+              setIsLoading(true);
+              if (selectedPlan === 1) {
+                createCheckoutSession(
+                  user.uid,
+                  "price_1NBwVSBFmTrmbD39IRqdJMBm"
+                );
+              } else {
+                createCheckoutSession(
+                  user.uid,
+                  "price_1NBwmpBFmTrmbD39GFhrncyt"
+                );
+              }
+            }}
+          >
             {selectedPlan === 1
               ? "Start your free 7-day trial"
               : "Start your first month"}
