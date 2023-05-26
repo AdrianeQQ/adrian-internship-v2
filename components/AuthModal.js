@@ -6,12 +6,14 @@ import { auth, db } from "@/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import Spinner from "./Spinner";
 import { useDispatch } from "react-redux";
 import { login, subscription } from "@/redux/authSlice";
 import { close } from "@/redux/modalSlice";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { loadFinished, loadSaved } from "@/redux/booksSlice";
 
 const AuthModal = () => {
@@ -22,6 +24,7 @@ const AuthModal = () => {
   const [error, setError] = useState(null);
   const [clickedButton, setClickedButton] = useState(null);
   const dispatch = useDispatch();
+  const provider = new GoogleAuthProvider();
   const submitForm = async (event, email, password) => {
     event.preventDefault();
     setIsLoading(true);
@@ -119,6 +122,30 @@ const AuthModal = () => {
 
             <button
               className={`${classes.btn} ${classes["google__btn--wrapper"]}`}
+              onClick={async () => {
+                try {
+                  const result = await signInWithPopup(auth, provider);
+                  const user = result.user;
+                  dispatch(login(user));
+                  const userSnap = await getDoc(doc(db, "users", user.uid));
+                  if (!userSnap.data()) {
+                    await setDoc(doc(db, "users", user.uid), {
+                      uid: user.uid,
+                      email: user.email,
+                      premium: "",
+                      finished: [],
+                      saved: [],
+                    });
+                  } else {
+                    dispatch(subscription(userSnap.data().premium));
+                    dispatch(loadSaved(userSnap.data().saved));
+                    dispatch(loadFinished(userSnap.data().finished));
+                  }
+                  dispatch(close());
+                } catch (error) {
+                  setError(error.message);
+                }
+              }}
             >
               <figure className={classes["google__icon--mask-2"]}>
                 <Image

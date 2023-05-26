@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { createCheckoutSession } from "@/stripe/createCheckoutSession";
+import Spinner from "@/components/Spinner";
 
 const ChoosePlan = () => {
   const [selectedPlan, setSelectedPlan] = useState(1);
@@ -151,9 +152,13 @@ const ChoosePlan = () => {
               }
             }}
           >
-            {selectedPlan === 1
-              ? "Start your free 7-day trial"
-              : "Start your first month"}
+            {isLoading ? (
+              <Spinner />
+            ) : selectedPlan === 1 ? (
+              "Start your free 7-day trial"
+            ) : (
+              "Start your first month"
+            )}
           </button>
           <p className={classes.disclaimer}>
             {selectedPlan === 1

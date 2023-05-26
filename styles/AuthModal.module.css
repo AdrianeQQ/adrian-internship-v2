@@ -113,9 +113,7 @@
 }
 
 .google__btn--wrapper:hover {
-  /* background-color: #1550b1; */
-  background-color: #4285f4;
-  cursor: not-allowed;
+  background-color: #1550b1;
 }
 
 .auth__separator {

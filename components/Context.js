@@ -16,7 +16,6 @@ const Context = ({ children }) => {
         await user.getIdToken(true);
         const dekodedToken = await user.getIdTokenResult();
         const role = dekodedToken?.claims?.stripeRole || "";
-        console.log(role);
         if (role) {
           await updateDoc(doc(db, "users", user.uid), {
             premium: role,
