@@ -2,7 +2,7 @@ import Overlay from "@/components/Overlay";
 import { useRouter } from "next/router";
 import classes from "@/styles/BookPage.module.css";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Skeleton from "@/components/Skeleton";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,8 @@ const BookPage = () => {
   const { saved } = useSelector((state) => state.books);
   const { user, premium } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [duration, setDuration] = useState("00:00");
+  const audioRef = useRef();
   const [isSaved, setIsSaved] = useState(
     !!saved.find((book) => book.id === bookId)
   );
@@ -54,6 +56,18 @@ const BookPage = () => {
   return (
     <Overlay>
       <div className={classes.container}>
+        <audio
+          src={!isLoading && book.audioLink}
+          ref={audioRef}
+          onLoadedMetadata={() =>
+            setDuration(() => {
+              const total = Math.floor(audioRef.current.duration);
+              const minutes = `${Math.floor(total / 60)}`.padStart(2, 0);
+              const seconds = `${total % 60}`.padStart(2, 0);
+              return `${minutes}:${seconds}`;
+            })
+          }
+        />
         <div className={classes.inner__book}>
           <div className={classes.book__title}>
             {isLoading ? <Skeleton height={32} width="75%" /> : book.title}
@@ -106,8 +120,7 @@ const BookPage = () => {
                       </svg>
                     </div>
                     <div className={classes["book__description-text"]}>
-                      {/* {book.duration} */}
-                      <Skeleton height={16} width={40} />
+                      {duration}
                     </div>
                   </div>
                   <div className={classes.book__description}>
@@ -193,7 +206,13 @@ const BookPage = () => {
                 <button
                   className={classes.book__btn}
                   onClick={() =>
-                    user.email ? push(`/player/${bookId}`) : dispatch(open())
+                    user.email
+                      ? book.subscriptionRequired
+                        ? premium
+                          ? push(`/player/${bookId}`)
+                          : push("/choose-plan")
+                        : push(`/player/${bookId}`)
+                      : dispatch(open())
                   }
                 >
                   <div className={classes["book__btn-icon"]}>

@@ -1,0 +1,308 @@
+.header {
+  background-color: #032b41;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-radius: 0 0 16rem 16rem;
+  padding: 3rem 1.5rem 0 1.5rem;
+}
+
+.header--wrapper {
+  max-width: 64rem;
+  margin: auto;
+  padding: 0 1.5rem;
+}
+
+.header__title {
+  color: white;
+  font-size: 3rem;
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+}
+
+.header__sub-title {
+  color: white;
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+.header__image {
+  width: 21.25rem;
+  height: auto;
+  transform: translateY(0.25rem);
+  border-radius: 100rem 100rem 0 0;
+}
+
+.main {
+  max-width: 64rem;
+  margin: auto;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.main__features--wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 0 auto 3.5rem auto;
+  max-width: 50rem;
+}
+
+.main__feature {
+  text-align: center;
+}
+
+.main__feature-image--wrapper {
+  margin-bottom: 0.75rem;
+}
+
+.main__feature-svg {
+  color: #032b41;
+  width: 3.75rem;
+  height: 3.75rem;
+}
+
+.main__feature {
+  font-size: 1rem;
+  color: #394547;
+  line-height: 1.5;
+}
+
+.main__feature span {
+  font-weight: 600;
+}
+
+.plan__title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.plan {
+  display: flex;
+  margin: auto;
+  padding: 1.5rem;
+  border: 0.25rem solid #bac8ce;
+  gap: 1.5rem;
+  max-width: 42.5rem;
+  width: 100%;
+  cursor: pointer;
+  background-color: #f1f6f4;
+}
+
+.plan--active {
+  border-color: #2be080;
+}
+
+.plan__circle {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plan__dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.plan__content {
+  text-align: left;
+}
+
+.plan__card-title {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.plan__card-price {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.plan__card-text {
+  font-size: 0.875rem;
+  color: #6b757b;
+}
+
+.plan__separator {
+  margin: 1.5rem 0;
+}
+
+.plan__card-separator {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 15rem;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.plan__card-separator::before,
+.plan__card-separator::after {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: #bac8ce;
+  flex-grow: 1;
+}
+
+.btn {
+  height: 2.5rem;
+  width: 18.75rem;
+  background-color: #2bd97c;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  background-color: #20ba68;
+}
+
+.disclaimer {
+  font-size: 0.75rem;
+  color: #6b757b;
+  padding-bottom: 2rem;
+}
+
+.accordion__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordion__title {
+  font-size: 1.5rem;
+}
+
+.accordion__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: all 0.3s ease;
+  transform: rotate(180deg);
+}
+
+.accordion__icon-open {
+  transform: rotate(0deg);
+}
+
+.accordion__info {
+  height: 6rem;
+  transition: all 0.2s;
+  overflow: hidden;
+  border-bottom: 1px solid #bac8ce;
+  text-align: left;
+}
+
+.accordion__closed {
+  height: 0;
+}
+
+.accordion__body {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #394547;
+}
+
+.footer {
+  background-color: #f1f6f4;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.footer__lists {
+  max-width: 64rem;
+  width: 100%;
+  margin: auto;
+  justify-content: space-between;
+  display: flex;
+  text-align: left;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.footer__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.footer__item {
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: #394547;
+}
+
+.footer__link {
+  cursor: not-allowed;
+}
+
+.footer__copyright {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.sticky {
+  position: sticky;
+  z-index: 10;
+  bottom: 0;
+  background-color: white;
+}
+
+@media (max-width: 48rem) {
+  .header__title {
+    font-size: 1.625rem;
+  }
+
+  .header__sub-title {
+    font-size: 1rem;
+  }
+
+  .header {
+    border-radius: 0;
+  }
+
+  .main__features--wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .plan__title {
+    font-size: 1.5rem;
+  }
+
+  .plan__card-title {
+    font-size: 1rem;
+  }
+
+  .plan__card-price {
+    font-size: 1.25rem;
+  }
+
+  .plan__card-text {
+    font-size: 0.75rem;
+  }
+
+  .accordion__title {
+    font-size: 1.25rem;
+  }
+
+  .accordion__body {
+    font-size: 0.875rem;
+  }
+
+  .footer__lists {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
