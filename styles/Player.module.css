@@ -45,6 +45,7 @@
   grid-template-columns: repeat(3, 1fr);
   padding: 0 2.5rem;
   align-items: center;
+  z-index: 100;
 }
 
 .error {
@@ -106,6 +107,7 @@
 .player__audio--svg-play {
   width: 1.75rem;
   height: 1.75rem;
+  margin-left: 0.25rem;
 }
 
 .player__audio--svg path {
@@ -117,6 +119,7 @@
   gap: 1rem;
   align-items: center;
   justify-content: center;
+  align-self: stretch;
 }
 
 .player__audio--time {
@@ -128,7 +131,7 @@
   border-radius: 0.5rem;
   height: 0.25rem;
   max-width: 18.75rem;
-  width: 100%;
+  flex-grow: 1;
   cursor: pointer;
   outline: none;
   appearance: none;
@@ -146,6 +149,12 @@
   width: 0.375rem;
   border-radius: 50%;
   appearance: none;
+}
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 @media (max-width: 48rem) {

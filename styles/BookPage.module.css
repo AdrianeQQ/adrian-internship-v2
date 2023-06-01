@@ -43,8 +43,8 @@
 
 .book--wrapper-inside {
   display: grid;
+  grid-template-columns: repeat(2, 1fr);
   width: 50%;
-  grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
 }
 
@@ -159,6 +159,7 @@
   display: flex;
   margin-bottom: 1rem;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .book__tag {
@@ -199,5 +200,9 @@
 
   .book__explanation {
     font-size: 0.875rem;
+  }
+
+  .book--wrapper-inside {
+    width: 100%;
   }
 }

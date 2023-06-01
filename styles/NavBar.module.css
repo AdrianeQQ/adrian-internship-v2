@@ -5,6 +5,7 @@
   position: fixed;
   transition: all 0.3s ease;
   z-index: 10;
+  overflow-y: auto;
 }
 
 .sidebar__logo {
@@ -91,14 +92,11 @@
   position: fixed;
   background-color: black;
   z-index: 10;
-  width: 8rem;
-  right: 0;
+  left: 0;
   height: 100vh;
   opacity: 0.5;
-}
-
-.sidebar__close-player {
-  height: calc(100vh - 5rem);
+  top: 0;
+  width: 100%;
 }
 
 .sidebar__player {
@@ -156,19 +154,11 @@
     transform: translateX(0);
   }
 
-  .sidebar__close {
-    right: -8rem;
-  }
-
   .sidebar__player {
     height: calc(100vh - 11.25rem);
   }
 
   .sidebar__wrapper-player {
     height: calc(100vh - 14rem);
-  }
-
-  .sidebar__close-player {
-    height: calc(100vh - 11.25rem);
   }
 }

@@ -38,6 +38,8 @@ const Book = ({ book, loading }) => {
             width={172}
             height={172}
             alt="Book cover"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN8UA8AAkUBYdOfF4cAAAAASUVORK5CYII="
           />
         )}
       </figure>

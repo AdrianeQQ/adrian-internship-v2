@@ -41,7 +41,15 @@ const PlayerPage = () => {
         <div
           className={`${classes.summary} ${classes[fontClasses[fontSize - 1]]}`}
         >
-          {isLoading ? <Skeleton height={480} width="100%" /> : book.summary}
+          {isLoading ? (
+            <div className={classes.skeleton}>
+              {new Array(4).fill(0).map((_, index) => (
+                <Skeleton height={120} width="100%" key={index} />
+              ))}
+            </div>
+          ) : (
+            book.summary
+          )}
         </div>
       </div>
       <Player book={book} isLoading={isLoading} />

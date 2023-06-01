@@ -16,3 +16,57 @@
   font-weight: 300;
   color: #394547;
 }
+
+.container {
+  max-width: 64rem;
+  margin: auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.sectitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  height: 2.5rem;
+  width: 11.25rem;
+  background-color: #2bd97c;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+}
+
+.btn:hover {
+  background-color: #20ba68;
+}
+
+.not__container {
+  text-align: center;
+}
+
+.image {
+  width: 28.75rem;
+  height: auto;
+}
+
+.books__wrapper {
+  background-color: #f1f6f4;
+  border-radius: 0.25rem;
+  padding: 2rem;
+  text-align: center;
+  max-width: 25rem;
+  margin: auto;
+}
+
+.books__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.book__sub-title {
+  font-size: 1rem;
+  color: #394547;
+}

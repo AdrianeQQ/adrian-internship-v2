@@ -259,6 +259,7 @@
   z-index: 10;
   bottom: 0;
   background-color: white;
+  padding-top: 1rem;
 }
 
 @media (max-width: 48rem) {
